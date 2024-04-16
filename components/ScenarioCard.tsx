@@ -22,12 +22,12 @@ const ScenarioCard: FC<Props> = ({ title, level, color, isFavourited }) => {
 
   return (
     <div
-      className="w-64 h-64 flex flex-col rounded-lg justify-between text-start text-black p-3 shadow-md"
+      className="w-60 h-60 flex flex-col rounded-lg justify-between text-start text-black p-3 shadow-md"
       style={{ backgroundColor: color }}
     >
       <div className="flex justify-between items-start">
         <h1
-          className="flex-grow text-2xl font-semibold"
+          className="flex-grow text-xl font-semibold"
           style={{
             color: isColorLight ? "#FFFFFF" : "#000000",
           }}
@@ -47,7 +47,7 @@ const ScenarioCard: FC<Props> = ({ title, level, color, isFavourited }) => {
       </div>
       <div className="flex justify-between items-center font-semibold">
         <h2
-          className="flex-grow mr-24"
+          className="flex-grow mr-16"
           style={{
             color: isColorLight ? "#FFFFFF" : "#000000",
           }}
