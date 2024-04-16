@@ -1,28 +1,114 @@
-import {Navbar} from '../components/Navbar'
+"use client";
+
+import ScenarioCard from "@/components/ScenarioCard";
+import { Navbar } from "../components/Navbar";
+import { ThemeContext } from "@/theme/ThemeContext";
+import { useContext } from "react";
+import { DarkColors, Levels, LightColors } from "@/utils/contants";
 
 export default function Home() {
+  const { theme } = useContext(ThemeContext);
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between pr-5 pl-5 pt-2 pb-2">
+    <main
+      data-theme={theme}
+      className="flex min-h-screen flex-col items-center px-3 pt-2"
+    >
       <Navbar />
-
-      <button className="btn btn-primary">Button</button>
-      <button className="btn btn-secondary">Button</button>
-      <button className="btn px-16 rounded-none">Button</button>
-      <button className="btn w-64 rounded-full">Button</button>
-
-  
-
-      {/* <details className="dropdown">
-        <summary className="m-1 btn">open or close</summary>
-        <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
-          <li>
-            <a>Item 1</a>
-          </li>
-          <li>
-            <a>Item 2</a>
-          </li>
-        </ul>
-      </details> */}
+      <div className="flex flex-row gap-2 flex-wrap mt-5 mb-10 justify-center">
+        <ScenarioCard
+          title="You're at a library and need help finding a specific book."
+          color={DarkColors.Green}
+          level={Levels.Beginner}
+          isFavourited={false}
+        />
+        <ScenarioCard
+          title="You're at a library and need help finding a specific book."
+          color={DarkColors.Yellow}
+          level={Levels.Advanced}
+          isFavourited={false}
+        />
+        <ScenarioCard
+          title="You're at a library and need help finding a specific book."
+          color={LightColors.Red}
+          level={Levels.Intermediate}
+          isFavourited={false}
+        />
+        <ScenarioCard
+          title="You're at a library and need help finding a specific book."
+          color={LightColors.Orange}
+          level={Levels.Beginner}
+          isFavourited={false}
+        />
+        <ScenarioCard
+          title="You're at a library and need help finding a specific book."
+          color={DarkColors.Aqua}
+          level={Levels.Beginner}
+          isFavourited={false}
+        />
+        {/* row 2 */}
+        <ScenarioCard
+          title="You're at a library and need help finding a specific book."
+          color={DarkColors.Aqua}
+          level={Levels.Beginner}
+          isFavourited={false}
+        />
+        <ScenarioCard
+          title="You're at a library and need help finding a specific book."
+          color={LightColors.Orange}
+          level={Levels.Advanced}
+          isFavourited={false}
+        />
+        <ScenarioCard
+          title="You're at a library and need help finding a specific book."
+          color={LightColors.Purple}
+          level={Levels.Intermediate}
+          isFavourited={false}
+        />
+        <ScenarioCard
+          title="You're at a library and need help finding a specific book."
+          color={DarkColors.Green}
+          level={Levels.Beginner}
+          isFavourited={false}
+        />
+        <ScenarioCard
+          title="You're at a library and need help finding a specific book."
+          color={LightColors.Orange}
+          level={Levels.Beginner}
+          isFavourited={false}
+        />
+        {/* row 3 */}
+        <ScenarioCard
+          title="You're ordering coffee at a cafe, but have dietary restrictions."
+          color={DarkColors.Yellow}
+          level={Levels.Beginner}
+          isFavourited={false}
+        />
+        <ScenarioCard
+          title="You're at the airport and your flight is delayed."
+          color={DarkColors.Aqua}
+          level={Levels.Advanced}
+          isFavourited={false}
+        />
+        <ScenarioCard
+          title="You're at a clothing store and want to try on some clothes."
+          color={LightColors.Red}
+          level={Levels.Intermediate}
+          isFavourited={false}
+        />
+        <ScenarioCard
+          title="You accidentally bump into someone on the street."
+          color={DarkColors.Yellow}
+          level={Levels.Beginner}
+          isFavourited={false}
+        />
+        <ScenarioCard
+          title="You're at a friend's house for dinner and their pet dog seems aggressive."
+          color={LightColors.Purple}
+          level={Levels.Intermediate}
+          isFavourited={false}
+        />
+      </div>
     </main>
   );
 }
