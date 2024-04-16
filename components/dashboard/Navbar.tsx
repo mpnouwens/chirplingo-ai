@@ -1,10 +1,10 @@
 import { FC, useContext } from "react";
-import ChirplingoDark from "../assets/svg/chirp-light.svg";
-import ChirplingoLight from "../assets/svg/chirp-dark.svg";
+import ChirplingoDark from "@/assets/svg/chirp-light.svg";
+import ChirplingoLight from "@/assets/svg/chirp-dark.svg";
 import Image from "next/image";
 import { ThemeContext } from "@/theme/ThemeContext";
-import AddDark from "../assets/svg/white-plus.svg";
-import AddWhite from "../assets/svg/black-plus.svg";
+import AddDark from "@/assets/svg/white-plus.svg";
+import AddWhite from "@/assets/svg/black-plus.svg";
 import BlackFilter from "@/assets/svg/black-filter.svg";
 import WhiteFilter from "@/assets/svg/white-filter.svg";
 import BlackSparkles from "@/assets/svg/black-sparkles.svg";

@@ -1,10 +1,11 @@
 "use client";
 
-import ScenarioCard from "@/components/ScenarioCard";
-import { Navbar } from "@/components/Navbar";
+import { Navbar } from "@/components/home/Navbar";
 import { ThemeContext } from "@/theme/ThemeContext";
+import { Ruda } from "next/font/google";
 import { useContext } from "react";
-import { scenarios } from "@/utils/contants";
+
+const ruda = Ruda({ subsets: ["latin"] });
 
 export default function Home() {
   const { theme } = useContext(ThemeContext);
@@ -15,17 +16,26 @@ export default function Home() {
       className="flex min-h-screen flex-col items-center px-3 pt-2"
     >
       <Navbar />
-      <div className="flex flex-row gap-2 flex-wrap mt-5 mb-10 justify-center">
-        {scenarios.map((scenario) => (
-          <ScenarioCard
-            key={scenario.title}
-            title={scenario.title}
-            level={scenario.level}
-            color={scenario.color}
-            isFavourited={scenario.isFavourited}
-          />
-        ))}
-      </div>
+      <h1
+        className={
+          ruda.className +
+          ` text-8xl font-extrabold ${
+            theme === "dark" ? "text-[#FFFBE3]" : "text-black"
+          } text-center mt-10`
+        }
+      >
+        Your AI Language Learning Companion 🦜
+      </h1>
+      <p
+        className={`text-3xl ${
+          theme === "dark" ? "text-[#FFFBE3]" : "text-black"
+        } text-center mt-5`}
+      >
+        Learn Languages Effortlessly. Speak with Confidence.
+      </p>
+      <a className="btn btn-lg bg-gradient-to-r from-green-500 via-yellow to-yellow-500 text-black font-bold my-5 mr-2">
+          Get Started
+        </a>
     </main>
   );
 }

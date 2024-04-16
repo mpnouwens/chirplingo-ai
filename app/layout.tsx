@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Open_Sans, Ruda } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/theme/ThemeProvider";
 
-const inter = Inter({ subsets: ["latin"] });
+const openSans = Open_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "ChirpLingo: AI Language Learning Companion",
@@ -17,8 +17,8 @@ export default function RootLayout({
 }>) {
   return (
     <ThemeProvider>
-      <html data-theme="dim" lang="en">
-        <body className={inter.className}>{children}</body>
+      <html lang="en">
+        <body className={openSans.className}>{children}</body>
       </html>
     </ThemeProvider>
   );
