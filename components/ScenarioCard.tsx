@@ -4,6 +4,7 @@ import WhiteStar from "../assets/svg/white-star.svg";
 import BlackStar from "../assets/svg/black-star.svg";
 import WhiteArrow from "../assets/svg/white-right-arrow.svg";
 import BlackArrow from "../assets/svg/black-right-arrow.svg";
+import { useRouter } from 'next/navigation'
 
 interface Props {
   title: string;
@@ -14,11 +15,12 @@ interface Props {
 
 const ScenarioCard: FC<Props> = ({ title, level, color, isFavourited }) => {
   const lightColors = ["#ED183E", "#322A8F", "#FF3D00"];
-
   const darkColors = ["#80FF00", "#FFE500", "#00FFF0"];
 
   const isColorDark = darkColors.includes(color);
   const isColorLight = lightColors.includes(color);
+
+  const router = useRouter()
 
   return (
     <div
@@ -54,16 +56,17 @@ const ScenarioCard: FC<Props> = ({ title, level, color, isFavourited }) => {
         >
           {level}
         </h2>
-        {isColorDark ? (
-          <button className="btn btn-sm btn-circle bg-transparent hover:bg-transparent border-none shadow-none">
+
+        <button
+          onClick={() => router.push(`/dashboard/${title}`)}
+          className="btn btn-sm btn-circle bg-transparent hover:bg-transparent border-none shadow-none"
+        >
+          {isColorDark ? (
             <Image src={BlackArrow} alt="Arrow" />
-          </button>
-        ) : null}
-        {isColorLight ? (
-          <button className="btn btn-sm btn-circle bg-transparent hover:bg-transparent border-none shadow-none">
+          ) : (
             <Image src={WhiteArrow} alt="Arrow" />
-          </button>
-        ) : null}
+          )}
+        </button>
       </div>
     </div>
   );

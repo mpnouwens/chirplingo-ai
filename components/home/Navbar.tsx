@@ -84,8 +84,8 @@ const Navbar: FC = () => {
         </ul>
       </div>
       <div className="navbar-end">
-        <a className={`btn btn-outline mr-2 ${theme === 'dark' ? 'text-white hover:bg-white' : 'text-black hover:bg-black'}`}>Login</a>
-        <a className="btn bg-gradient-to-r from-red-500 via-yellow to-yellow-500 text-black mr-2">
+        <a className={`btn btn-outline mr-2 ${theme === 'dark' ? 'text-white hover:bg-white' : 'text-black hover:bg-black'} font-bold`}>Login</a>
+        <a className="btn bg-gradient-to-b from-[#FF3D00] via-yellow to-[#FFC700] text-black mr-2 font-bold">
           Register
         </a>
         <div className="tooltip tooltip-bottom" data-tip="Switch Theme">
