@@ -11,9 +11,11 @@ import BlackSparkles from "@/assets/svg/black-sparkles.svg";
 import WhiteSparkles from "@/assets/svg/white-sparkles.svg";
 import BlackCreate from "@/assets/svg/black-create.svg";
 import WhiteCreate from "@/assets/svg/white-create.svg";
+import { useRouter } from "next/navigation";
 
 const Navbar: FC = () => {
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const router = useRouter()
 
   return (
     <div className="navbar bg-base-100" data-theme={theme}>
@@ -183,7 +185,9 @@ const Navbar: FC = () => {
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <a>Settings</a>
+              <button onClick={() => {
+                router.push("/settings")
+              }} className="a">Settings</button>
             </li>
             <li>
               <a>Logout</a>

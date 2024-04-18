@@ -3,12 +3,14 @@
 import { Navbar } from "@/components/home/Navbar";
 import { ThemeContext } from "@/theme/ThemeContext";
 import { Ruda } from "next/font/google";
+import { useRouter } from 'next/navigation'
 import { useContext } from "react";
 
 const ruda = Ruda({ subsets: ["latin"] });
 
 export default function Home() {
   const { theme } = useContext(ThemeContext);
+  const router = useRouter()
 
   return (
     <html data-theme={theme} lang="en">
@@ -34,9 +36,11 @@ export default function Home() {
         >
           Learn Languages Effortlessly. Speak with Confidence.
         </p>
-        <a className="btn btn-lg bg-gradient-to-b from-[#80FF00] via-yellow to-[#FFC700] text-black font-bold my-5 mr-2">
+        <button onClick={() => {
+          router.push("/dashboard")
+        }} className="btn btn-lg bg-gradient-to-b from-[#80FF00] via-yellow to-[#FFC700] text-black font-bold my-5 mr-2">
           Get Started
-        </a>
+        </button>
       </main>
     </html>
   );
