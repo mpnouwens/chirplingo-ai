@@ -1,4 +1,4 @@
-import { FC, useContext } from "react";
+import { FC, useContext, useState } from "react";
 import { ThemeContext } from "@/theme/ThemeContext";
 import { AnimatedCircleButton } from "../AnimatedCircleButton";
 import CloseDark from "@/assets/svg/close-dark.svg";
@@ -12,6 +12,7 @@ interface Props {
 
 const Navbar: FC<Props> = ({ goBack, targetTitle, nativeTitle }) => {
   const { theme } = useContext(ThemeContext);
+  const [close, setClose] = useState(false);
 
   return (
     <div className="navbar bg-base-100">
@@ -104,8 +105,44 @@ const Navbar: FC<Props> = ({ goBack, targetTitle, nativeTitle }) => {
           blackIcon={CloseDark}
           whiteIcon={CloseLight}
           title="Close"
+          onClick={() => setClose(true)}
         />
       </div>
+      {close ? (
+        <>
+          <div className="fixed inset-0 bg-black bg-opacity-70 z-40"></div>
+          <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className="relative w-auto my-6 mx-auto max-w-3xl">
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-base-200 outline-none focus:outline-none">
+                <div className="relative p-6 flex-auto">
+                  <p className="text-red-500">
+                    Are you sure you want to leave? As leaving, you will
+                    permanently clear your progress.
+                  </p>
+                  <div className="flex justify-end mt-4">
+                    <button
+                      className="text-gray-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
+                      type="button"
+                      onClick={() => setClose(false)}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      className="text-white bg-red-500 active:bg-red-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                      type="button"
+                      onClick={() => {
+                        setClose(false);
+                      }}
+                    >
+                      Exit
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : null}
     </div>
   );
 };

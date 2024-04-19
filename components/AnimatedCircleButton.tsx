@@ -6,16 +6,18 @@ interface Props {
   whiteIcon: string;
   blackIcon: string;
   title: string;
+  onClick?: () => void;
 }
 
-const AnimatedCircleButton: FC<Props> = ({ whiteIcon, blackIcon, title }) => {
+const AnimatedCircleButton: FC<Props> = ({ whiteIcon, blackIcon, title, onClick }) => {
   const [isHovered, setIsHovered] = useState(false);
   const { theme } = useContext(ThemeContext);
 
   const calcMaxWidth = title.length * 9;
 
   return (
-    <a
+    <button
+      onClick={onClick}
       className="btn btn-md rounded-full h-10 m-1 flex flex-row items-center justify-center overflow-hidden"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -46,7 +48,7 @@ const AnimatedCircleButton: FC<Props> = ({ whiteIcon, blackIcon, title }) => {
       >
         {title}
       </p>
-    </a>
+    </button>
   );
 };
 

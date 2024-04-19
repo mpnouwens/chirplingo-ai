@@ -44,8 +44,16 @@ export default function Page({ params }: { params: { scenario: string } }) {
           />
           <div className="flex justify-center  my-5">
             <div className="flex flex-col justify-center items-center">
-              <span className={`loading loading-ring loading-lg ${theme === 'dark' ? 'text-white' : 'text-black'}`}></span>
-              <p className={`${theme === 'dark' ? 'text-white' : 'text-black'}`}>Listening</p>
+              <span
+                className={`loading loading-ring loading-lg ${
+                  theme === "dark" ? "text-white" : "text-black"
+                }`}
+              ></span>
+              <p
+                className={`${theme === "dark" ? "text-white" : "text-black"}`}
+              >
+                Listening
+              </p>
             </div>
           </div>
         </div>
@@ -54,7 +62,9 @@ export default function Page({ params }: { params: { scenario: string } }) {
         {/* bottom of the screen */}
         <div className="flex justify-center my-10">
           <textarea
-            className="textarea bg-base-200 textarea-lg w-full max-w-xs"
+            className={`textarea bg-base-200 textarea-lg w-full max-w-xs ${
+              theme === "dark" ? "text-white" : "text-black"
+            }`}
             placeholder="Enter your reply"
           />
         </div>
