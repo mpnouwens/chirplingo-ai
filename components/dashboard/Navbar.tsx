@@ -116,7 +116,7 @@ const Navbar: FC = () => {
           </a>
           {/* add button */}
           <a
-            className="btn btn-sm avatar rounded-full btn-circle w-12 h-12 mr-2 flex items-center justify-center tooltip tooltip-bottom"
+            className="btn btn-sm avatar rounded-full btn-circle w-12 h-12 mr-2 flex items-center justify-center"
             data-tip="Add Language"
           >
             <Image
@@ -127,7 +127,7 @@ const Navbar: FC = () => {
           </a>
         </div>
 
-        <div className="tooltip tooltip-bottom" data-tip="Switch Theme">
+        <div data-tip="Switch Theme">
           <label
             onChange={toggleTheme}
             className="btn btn-md btn-circle mr-2 items-center justify-center swap swap-rotate"

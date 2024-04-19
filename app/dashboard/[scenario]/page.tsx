@@ -44,8 +44,8 @@ export default function Page({ params }: { params: { scenario: string } }) {
           />
           <div className="flex justify-center  my-5">
             <div className="flex flex-col justify-center items-center">
-              <span className="loading loading-ring loading-lg text-white"></span>
-              <p className="text-white">Listening</p>
+              <span className={`loading loading-ring loading-lg ${theme === 'dark' ? 'text-white' : 'text-black'}`}></span>
+              <p className={`${theme === 'dark' ? 'text-white' : 'text-black'}`}>Listening</p>
             </div>
           </div>
         </div>

@@ -1,5 +1,8 @@
 import { FC, useContext } from "react";
 import { ThemeContext } from "@/theme/ThemeContext";
+import { AnimatedCircleButton } from "../AnimatedCircleButton";
+import CloseDark from "@/assets/svg/close-dark.svg";
+import CloseLight from "@/assets/svg/close-light.svg";
 
 interface Props {
   goBack: () => void;
@@ -97,8 +100,11 @@ const Navbar: FC<Props> = ({ goBack, targetTitle, nativeTitle }) => {
         >{`"${nativeTitle}"`}</h2>
       </div>
       <div className="navbar-end">
-        <a className={`btn btn-error ${theme === 'dark' ? 'text-black' : 'text-white'} mr-2`}>Close</a>
-        <a className={`btn btn-success ${theme === 'dark' ? 'text-black' : 'text-white'}`}>Save</a>
+        <AnimatedCircleButton
+          blackIcon={CloseDark}
+          whiteIcon={CloseLight}
+          title="Close"
+        />
       </div>
     </div>
   );
