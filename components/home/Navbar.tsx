@@ -3,14 +3,6 @@ import ChirplingoDark from "@/assets/svg/chirp-light.svg";
 import ChirplingoLight from "@/assets/svg/chirp-dark.svg";
 import Image from "next/image";
 import { ThemeContext } from "@/theme/ThemeContext";
-import AddDark from "@/assets/svg/white-plus.svg";
-import AddWhite from "@/assets/svg/black-plus.svg";
-import BlackFilter from "@/assets/svg/black-filter.svg";
-import WhiteFilter from "@/assets/svg/white-filter.svg";
-import BlackSparkles from "@/assets/svg/black-sparkles.svg";
-import WhiteSparkles from "@/assets/svg/white-sparkles.svg";
-import BlackCreate from "@/assets/svg/black-create.svg";
-import WhiteCreate from "@/assets/svg/white-create.svg";
 
 const Navbar: FC = () => {
   const { theme, toggleTheme } = useContext(ThemeContext);
@@ -65,7 +57,11 @@ const Navbar: FC = () => {
         />
       </div>
       <div className="navbar-center hidden lg:flex">
-      <ul className={`menu menu-horizontal px-1 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+        <ul
+          className={`menu menu-horizontal px-1 ${
+            theme === "dark" ? "text-white" : "text-black"
+          }`}
+        >
           <li>
             <a>Benefits</a>
           </li>
@@ -84,11 +80,19 @@ const Navbar: FC = () => {
         </ul>
       </div>
       <div className="navbar-end">
-        <a className={`btn btn-outline mr-2 ${theme === 'dark' ? 'text-white hover:bg-white' : 'text-black hover:bg-black'} font-bold`}>Login</a>
+        <a
+          className={`btn btn-outline mr-2 ${
+            theme === "dark"
+              ? "text-white hover:bg-white"
+              : "text-black hover:bg-black"
+          } font-bold`}
+        >
+          Login
+        </a>
         <a className="btn bg-gradient-to-b from-[#FF3D00] via-yellow to-[#FFC700] text-black mr-2 font-bold">
           Register
         </a>
-        <div className="tooltip tooltip-bottom" data-tip="Switch Theme">
+        <div data-tip="Switch Theme">
           <label
             onChange={toggleTheme}
             className="btn btn-md btn-circle mr-2 items-center justify-center swap swap-rotate"
@@ -114,7 +118,6 @@ const Navbar: FC = () => {
           </label>
         </div>
       </div>
-      
     </div>
   );
 };
