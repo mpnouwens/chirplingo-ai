@@ -12,10 +12,11 @@ import WhiteSparkles from "@/assets/svg/white-sparkles.svg";
 import BlackCreate from "@/assets/svg/black-create.svg";
 import WhiteCreate from "@/assets/svg/white-create.svg";
 import { useRouter } from "next/navigation";
+import { AnimatedCircleButton } from "../AnimatedCircleButton";
 
 const Navbar: FC = () => {
   const { theme, toggleTheme } = useContext(ThemeContext);
-  const router = useRouter()
+  const router = useRouter();
 
   return (
     <div className="navbar bg-base-100" data-theme={theme}>
@@ -67,36 +68,21 @@ const Navbar: FC = () => {
         />
       </div>
       <div className="flex flex-row">
-        <a
-          className="btn btn-md avatar rounded-full btn-circle w-12 h-12 mr-2 flex items-center justify-center tooltip tooltip-bottom"
-          data-tip="Filter"
-        >
-          <Image
-            src={theme === "dark" ? WhiteFilter : BlackFilter}
-            alt="filter"
-            style={{ height: 24, width: 24, marginTop: 2 }}
-          />
-        </a>
-        <a
-          className="btn btn-md avatar rounded-full btn-circle w-12 h-12 mr-2 flex items-center justify-center tooltip tooltip-bottom"
-          data-tip="Random Scenario"
-        >
-          <Image
-            src={theme === "dark" ? WhiteSparkles : BlackSparkles}
-            alt="sparkles"
-            style={{ height: 24, width: 24 }}
-          />
-        </a>
-        <a
-          className="btn btn-md avatar rounded-full btn-circle w-12 h-12 mr-2 flex items-center justify-center tooltip tooltip-bottom"
-          data-tip="Create Scenario"
-        >
-          <Image
-            src={theme === "dark" ? WhiteCreate : BlackCreate}
-            alt="create"
-            style={{ height: 24, width: 24 }}
-          />
-        </a>
+        <AnimatedCircleButton
+          whiteIcon={WhiteFilter}
+          blackIcon={BlackFilter}
+          title="Filter"
+        />
+        <AnimatedCircleButton
+          whiteIcon={WhiteSparkles}
+          blackIcon={BlackSparkles}
+          title="Randomize"
+        />
+        <AnimatedCircleButton
+          whiteIcon={WhiteCreate}
+          blackIcon={BlackCreate}
+          title="Create"
+        />
       </div>
       <div className="navbar-end">
         <div className="flex">
@@ -185,9 +171,14 @@ const Navbar: FC = () => {
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <button onClick={() => {
-                router.push("/settings")
-              }} className="a">Settings</button>
+              <button
+                onClick={() => {
+                  router.push("/settings");
+                }}
+                className="a"
+              >
+                Settings
+              </button>
             </li>
             <li>
               <a>Logout</a>

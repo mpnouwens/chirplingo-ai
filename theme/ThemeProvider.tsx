@@ -10,7 +10,7 @@ interface ThemeProviderProps {
 export const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
   const [theme, setTheme] = useState(() => {
     const savedTheme = window.localStorage.getItem('theme');
-    return savedTheme ? JSON.parse(savedTheme) : 'dark';
+    return savedTheme ? JSON.parse(savedTheme) : 'black';
   });
   
   useEffect(() => {
