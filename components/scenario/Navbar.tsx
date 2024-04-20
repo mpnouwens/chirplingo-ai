@@ -3,6 +3,7 @@ import { ThemeContext } from "@/theme/ThemeContext";
 import { AnimatedCircleButton } from "../AnimatedCircleButton";
 import CloseDark from "@/assets/svg/close-dark.svg";
 import CloseLight from "@/assets/svg/close-light.svg";
+import { useRouter } from "next/navigation";
 
 interface Props {
   goBack: () => void;
@@ -11,6 +12,8 @@ interface Props {
 }
 
 const Navbar: FC<Props> = ({ goBack, targetTitle, nativeTitle }) => {
+  const router = useRouter();
+
   const { theme } = useContext(ThemeContext);
   const [close, setClose] = useState(false);
 
@@ -132,6 +135,8 @@ const Navbar: FC<Props> = ({ goBack, targetTitle, nativeTitle }) => {
                       type="button"
                       onClick={() => {
                         setClose(false);
+                        // Stop session
+                        router.push("/dashboard");
                       }}
                     >
                       Exit

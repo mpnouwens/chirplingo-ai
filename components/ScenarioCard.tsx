@@ -1,10 +1,12 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import Image from "next/image";
 import WhiteStar from "../assets/svg/white-star.svg";
 import BlackStar from "../assets/svg/black-star.svg";
 import WhiteArrow from "../assets/svg/white-right-arrow.svg";
 import BlackArrow from "../assets/svg/black-right-arrow.svg";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
+import FilledBlackStar from "../assets/svg/filled-black-star.svg";
+import FilledWhiteStar from "../assets/svg/filled-white-star.svg";
 
 interface Props {
   title: string;
@@ -14,17 +16,20 @@ interface Props {
 }
 
 const ScenarioCard: FC<Props> = ({ title, level, color, isFavourited }) => {
+  const [isStarFilled, setIsStarFilled] = useState(false);
+
   const lightColors = ["#ED183E", "#322A8F", "#FF3D00"];
   const darkColors = ["#80FF00", "#FFE500", "#00FFF0"];
 
   const isColorDark = darkColors.includes(color);
   const isColorLight = lightColors.includes(color);
 
-  const router = useRouter()
+  const router = useRouter();
 
   return (
-    <div
-      className="w-60 h-60 flex flex-col rounded-lg justify-between text-start text-black p-3 shadow-md"
+    <button
+      onClick={() => router.push(`/dashboard/${title}`)}
+      className="w-60 h-60 flex flex-col rounded-lg justify-between text-start text-black p-3 shadow-md transform transition-all duration-300 hover:scale-95 hover:bg-blue-200 cursor-pointer"
       style={{ backgroundColor: color }}
     >
       <div className="flex justify-between items-start">
@@ -36,20 +41,29 @@ const ScenarioCard: FC<Props> = ({ title, level, color, isFavourited }) => {
         >
           {title}
         </h1>
-        {isColorDark ? (
-          <button className="btn btn-sm btn-circle bg-transparent hover:bg-transparent border-none shadow-none">
+        <button
+          onClick={(event) => {
+            event.stopPropagation();
+            setIsStarFilled(!isStarFilled);
+          }}
+          className="btn btn-sm btn-circle bg-transparent hover:bg-transparent border-none shadow-none z-10"
+        >
+          {isStarFilled ? (
+            isColorDark ? (
+              <Image src={FilledBlackStar} alt="favourite" />
+            ) : (
+              <Image src={FilledWhiteStar} alt="favourite" />
+            )
+          ) : isColorDark ? (
             <Image src={BlackStar} alt="favourite" />
-          </button>
-        ) : null}
-        {isColorLight ? (
-          <button className="btn btn-sm btn-circle bg-transparent hover:bg-transparent border-none shadow-none">
+          ) : isColorLight ? (
             <Image src={WhiteStar} alt="favourite" />
-          </button>
-        ) : null}
+          ) : null}
+        </button>
       </div>
-      <div className="flex justify-between items-center font-semibold">
+      <div className="flex justify-between items-center font-semibold w-full">
         <h2
-          className="flex-grow mr-16"
+          className="flex-grow"
           style={{
             color: isColorLight ? "#FFFFFF" : "#000000",
           }}
@@ -57,10 +71,7 @@ const ScenarioCard: FC<Props> = ({ title, level, color, isFavourited }) => {
           {level}
         </h2>
 
-        <button
-          onClick={() => router.push(`/dashboard/${title}`)}
-          className="btn btn-sm btn-circle bg-transparent hover:bg-transparent border-none shadow-none"
-        >
+        <button className="btn btn-sm btn-circle bg-transparent hover:bg-transparent border-none shadow-none">
           {isColorDark ? (
             <Image src={BlackArrow} alt="Arrow" />
           ) : (
@@ -68,7 +79,7 @@ const ScenarioCard: FC<Props> = ({ title, level, color, isFavourited }) => {
           )}
         </button>
       </div>
-    </div>
+    </button>
   );
 };
 

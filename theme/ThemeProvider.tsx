@@ -1,24 +1,28 @@
-'use client'
+"use client";
 
-import React, { FC, ReactNode, useEffect, useState } from 'react';
-import { ThemeContext } from './ThemeContext';
+import React, { FC, ReactNode, useEffect, useState } from "react";
+import { ThemeContext } from "./ThemeContext";
 
 interface ThemeProviderProps {
-    children: ReactNode;
-  }
+  children: ReactNode;
+}
 
 export const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
   const [theme, setTheme] = useState(() => {
-    const savedTheme = window.localStorage.getItem('theme');
-    return savedTheme ? JSON.parse(savedTheme) : 'black';
+    if (typeof window !== 'undefined') {
+      const savedTheme = window.localStorage.getItem("theme");
+      return savedTheme ? JSON.parse(savedTheme) : "black";
+    }
   });
-  
+
   useEffect(() => {
-    window.localStorage.setItem('theme', JSON.stringify(theme));
+    if (typeof window !== 'undefined') {
+      window?.localStorage.setItem("theme", JSON.stringify(theme));
+    }
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme((prevTheme: string) => (prevTheme === 'retro' ? 'dark' : 'retro'));
+    setTheme((prevTheme: string) => (prevTheme === "retro" ? "dark" : "retro"));
   };
 
   return (
