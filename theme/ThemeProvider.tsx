@@ -8,17 +8,17 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
-  const [theme, setTheme] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const savedTheme = window.localStorage.getItem("theme");
-      return savedTheme ? JSON.parse(savedTheme) : "black";
-    }
-  });
+  const [theme, setTheme] = useState("dark");
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      window?.localStorage.setItem("theme", JSON.stringify(theme));
+    const savedTheme = window.localStorage.getItem("theme");
+    if (savedTheme) {
+      setTheme(JSON.parse(savedTheme));
     }
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem("theme", JSON.stringify(theme));
   }, [theme]);
 
   const toggleTheme = () => {
