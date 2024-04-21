@@ -1,19 +1,29 @@
 
 import OpenAI from "openai";
-import fs from "fs";
 import Groq from "groq-sdk";
+import path from "path";
 
-const groq = new Groq();
+const groq = new Groq({
+    apiKey: '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',
+    dangerouslyAllowBrowser: true,
+});
 // WIP: Move this out
 const openai = new OpenAI({
     apiKey: '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',
     organization: 'org-pvMXX76YoaPHDdOiyFLIX8vu',
+    dangerouslyAllowBrowser: true,
+
 });
 
 
-async function transcribeAudio(blob: string) {
+async function transcribeAudio(blob: Blob | null) {
+    if (!blob) {
+        return;
+    }
+
+    const file = new File([blob], "audio.wav", { lastModified: Date.now() });
     const transcription = await openai.audio.transcriptions.create({
-        file: fs.createReadStream(blob),
+        file,
         model: "whisper-1",
         response_format: "verbose_json",
         timestamp_granularities: ["segment"]
@@ -53,23 +63,25 @@ const runAssistant = async (text: string) => {
 }
 
 // use open ai to convert response to voice audio via text to speech
-async function textToSpeech(text: string) {
-    const speechFile = `${text}-${Date.now()}.mp3`;
-
+const speechPrompt = async (text: string) => {
+    console.log('speechPrompt called');
     const mp3 = await openai.audio.speech.create({
         model: "tts-1",
-        voice: "alloy",
+        voice: "nova",
+        speed: 0.96,
         input: text,
     });
-    console.log(speechFile);
-    const buffer = Buffer.from(await mp3.arrayBuffer());
-    await fs.promises.writeFile(speechFile, buffer);
-    return speechFile;
 
-}
+    const blob = new Blob([await mp3.arrayBuffer()], { type: "audio/mpeg" });
+    const url = URL.createObjectURL(blob);
+    const audio = new Audio(url);
+    audio.play();
+    return blob;
+};
+
 
 export {
     transcribeAudio,
-    textToSpeech,
+    speechPrompt,
     runAssistant
 }
