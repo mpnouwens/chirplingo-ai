@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useContext, useEffect, useRef, useState } from "react";
 import Logo from "@/assets/svg/logo.svg";
 import { ToggleType } from "@/components/ToggleType";
-import { speechPrompt, transcribeAudio } from "@/api";
+import { runAssistant, speechPrompt, transcribeAudio } from "@/api";
 
 export default function Page({ params }: { params: { scenario: string } }) {
   const { theme } = useContext(ThemeContext);
@@ -16,7 +16,6 @@ export default function Page({ params }: { params: { scenario: string } }) {
   const decodedText = decodeURIComponent(params.scenario);
 
   const [botBlobs, setBotBlobs] = useState<Blob[]>([]);
-  console.log("🚀 ~ Page ~ botBlobs:", botBlobs);
 
   const [scenarioState, setScenarioState] = useState<
     "introduction" | "scenario" | "rating"
@@ -60,8 +59,8 @@ export default function Page({ params }: { params: { scenario: string } }) {
 
     if (scenarioState === "introduction") {
       speechPrompt(
-        `Welcome to the scenario. ${decodedText} Click here to get started.`
-      );
+        `Click "Get Started" to begin the scenario.`
+      )
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -71,7 +70,16 @@ export default function Page({ params }: { params: { scenario: string } }) {
     if (audioBlob) {
       transcribeAudio(audioBlob).then((text) => {
         console.log(text);
+        if (text) {
+          runAssistant(text).then((response) => {
+            if (response) {
+              console.log(response);
+            }
+          });
+        }
       });
+
+     
     }
   }, [audioBlob]);
 
@@ -119,7 +127,7 @@ export default function Page({ params }: { params: { scenario: string } }) {
                 timestamp="12:00 PM"
                 image={Logo}
               />
-    
+  
               <div className="flex justify-center  my-5">
                 <div className="flex flex-col justify-center items-center">
                   <span
