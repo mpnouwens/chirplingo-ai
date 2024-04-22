@@ -41,6 +41,8 @@ export default function Home() {
         }} className="btn btn-lg bg-gradient-to-b from-[#80FF00] via-yellow to-[#FFC700] text-black font-bold my-5 mr-2">
           Get Started
         </button>
+
+        <h1 className={`${ ruda.className} text-3xl ${theme === 'dark' ? 'text-white': 'text-black'} text-center mt-10`}>Benefits</h1>
       </main>
     </html>
   );
