@@ -1,18 +1,92 @@
 
+import { z } from "zod";
 import OpenAI from "openai";
 import Groq from "groq-sdk";
-import path from "path";
+import { OpenAI as LangOpenAI } from "@langchain/openai";
+import { RunnableSequence } from "@langchain/core/runnables";
+import { StructuredOutputParser } from "langchain/output_parsers";
+import { PromptTemplate } from "@langchain/core/prompts";
+
+const assistantHelperSchema = StructuredOutputParser.fromZodSchema(
+    z.object({
+        teach_me_in: z.string(),
+        learning_language: z.string(),
+        language_level: z.string(),
+        name: z.string(),
+        scenario: z.string(),
+    })
+);
+
+const getScenarioParser = StructuredOutputParser.fromZodSchema(
+    z.object({
+        action: z.literal("getScenario"),
+        introduction: z.object({
+            message: z.string(),
+            messageInNativeLang: z.string(),
+            goal: z.string(),
+            goalInNativeLang: z.string(),
+        }),
+        question: z.object({
+            question: z.string(),
+            questionInNativeLang: z.string(),
+            hint: z.string(),
+            hintInNativeLang: z.string(),
+        }),
+    })
+);
+
+const submitAnswerParser = StructuredOutputParser.fromZodSchema(
+    z.object({
+        action: z.literal("submitAnswer"),
+        answer: z.string(),
+    })
+);
+
+const getFeedbackAndQuestionParser = StructuredOutputParser.fromZodSchema(
+    z.object({
+        action: z.literal("getFeedbackAndQuestion"),
+        feedback: z.object({
+            message: z.string(),
+            messageInNativeLang: z.string(),
+            hasMetGoal: z.boolean(),
+        }),
+        question: z.object({
+            message: z.string(),
+            messageInNativeLang: z.string(),
+            hint: z.string(),
+            hintInNativeLang: z.string(),
+        }),
+    })
+);
+
+const getFeedbackParser = StructuredOutputParser.fromZodSchema(
+    z.object({
+        action: z.literal("getFeedback"),
+        userAnswer: z.string(),
+    })
+);
+
+const chain = RunnableSequence.from([
+    PromptTemplate.fromTemplate(
+      "Answer the users question as best as possible.\n{format_instructions}\n{question}"
+    ),
+    new OpenAI({ temperature: 0, apiKey: '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', dangerouslyAllowBrowser: true,}),
+    parser,
+  ]);
+
+
+
+
 
 const groq = new Groq({
     apiKey: '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',
     dangerouslyAllowBrowser: true,
 });
-// WIP: Move this out
+
 const openai = new OpenAI({
     apiKey: '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',
     organization: 'org-pvMXX76YoaPHDdOiyFLIX8vu',
     dangerouslyAllowBrowser: true,
-
 });
 
 
@@ -32,7 +106,6 @@ async function transcribeAudio(blob: Blob | null) {
     console.log(transcription.text);
     return transcription.text;
 }
-
 
 // pass text to groq sdk assistant to get response, the assistant will be trained to respond to text
 const runAssistant = async (text: string) => {

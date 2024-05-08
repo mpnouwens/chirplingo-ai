@@ -9,13 +9,19 @@ import Logo from "@/assets/svg/logo.svg";
 import { ToggleType } from "@/components/ToggleType";
 import { runAssistant, speechPrompt, transcribeAudio } from "@/api";
 
+type MessageBlob = {
+  from: "user" | "assistant";
+  message: string;
+  timestamp: string;
+};
+
 export default function Page({ params }: { params: { scenario: string } }) {
   const { theme } = useContext(ThemeContext);
   const router = useRouter();
   const isFirstRender = useRef(true);
   const decodedText = decodeURIComponent(params.scenario);
 
-  const [botBlobs, setBotBlobs] = useState<Blob[]>([]);
+  const [messageBlobs, setMessageBlobs] = useState<MessageBlob[]>([]);
 
   const [scenarioState, setScenarioState] = useState<
     "introduction" | "scenario" | "rating"
@@ -58,14 +64,13 @@ export default function Page({ params }: { params: { scenario: string } }) {
     }
 
     if (scenarioState === "introduction") {
-      speechPrompt(
-        `Click "Get Started" to begin the scenario.`
-      )
+      speechPrompt(`Click "Get Started" to begin the scenario.`);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scenarioState]);
 
+  // note: happens when you a user has said something
   useEffect(() => {
     if (audioBlob) {
       transcribeAudio(audioBlob).then((text) => {
@@ -73,13 +78,22 @@ export default function Page({ params }: { params: { scenario: string } }) {
         if (text) {
           runAssistant(text).then((response) => {
             if (response) {
-              console.log(response);
+              const message = response.choices[0].message.content;
+
+              // note: the assistant will respond to the user's message and add it to the list of blobs
+              speechPrompt(message);
+              setMessageBlobs((prev) => [
+                ...prev,
+                {
+                  from: "assistant",
+                  message,
+                  timestamp: new Date().toLocaleTimeString(),
+                },
+              ]);
             }
           });
         }
       });
-
-     
     }
   }, [audioBlob]);
 
@@ -108,26 +122,24 @@ export default function Page({ params }: { params: { scenario: string } }) {
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
                 </span>
                 Get Started
-                
               </button>
             </div>
           )}
 
           {scenarioState === "scenario" && (
             <>
-              <MessageBubble
-                from="assistant"
-                message="¡Hola! ¿Como puedo ayudarte?"
-                timestamp="12:00 PM"
-                image={Logo}
-              />
-              <MessageBubble
-                from="user"
-                message="¡Hola! ¿Puedo pedir algo picante?"
-                timestamp="12:00 PM"
-                image={Logo}
-              />
-  
+              {messageBlobs.map((messageBlob) => {
+                return (
+                  <MessageBubble
+                    key={`${messageBlob.from}-${messageBlob.timestamp}`}
+                    from={messageBlob.from}
+                    message={messageBlob.message}
+                    timestamp={messageBlob.timestamp}
+                    image={Logo}
+                  />
+                );
+              })}
+
               <div className="flex justify-center  my-5">
                 <div className="flex flex-col justify-center items-center">
                   <span
@@ -148,31 +160,33 @@ export default function Page({ params }: { params: { scenario: string } }) {
           )}
         </div>
 
-        <div className="flex justify-center my-5">
-          <div className="flex flex-col justify-center items-center">
-            {inputType === "text" ? (
-              <textarea
-                className={`textarea bg-base-200 textarea-lg w-full max-w-xs ${
-                  theme === "dark" ? "text-white" : "text-black"
-                } mb-4`}
-                placeholder="Enter your reply"
-              />
-            ) : (
-              <div className="flex flex-col items-center">
-                <button
-                  onClick={recording ? stopRecording : startRecording}
-                  className="btn mb-4 bg-[blue-500] hover:bg-blue-600 text-white rounded-lg p-2"
-                >
-                  {recording ? "Stop Recording" : "Start Recording"}
-                </button>
-                {audioBlob && (
-                  <audio src={URL.createObjectURL(audioBlob)} controls />
-                )}
-              </div>
-            )}
-            <ToggleType type={inputType} setType={setInputType} />
+        {scenarioState === "scenario" && (
+          <div className="flex justify-center my-5">
+            <div className="flex flex-col justify-center items-center">
+              {inputType === "text" ? (
+                <textarea
+                  className={`textarea bg-base-200 textarea-lg w-full max-w-xs ${
+                    theme === "dark" ? "text-white" : "text-black"
+                  } mb-4`}
+                  placeholder="Enter your reply"
+                />
+              ) : (
+                <div className="flex flex-col items-center">
+                  <button
+                    onClick={recording ? stopRecording : startRecording}
+                    className="btn mb-4 bg-[blue-500] hover:bg-blue-600 text-white rounded-lg p-2"
+                  >
+                    {recording ? "Stop Recording" : "Start Recording"}
+                  </button>
+                  {audioBlob && (
+                    <audio src={URL.createObjectURL(audioBlob)} controls />
+                  )}
+                </div>
+              )}
+              <ToggleType type={inputType} setType={setInputType} />
+            </div>
           </div>
-        </div>
+        )}
       </body>
     </html>
   );
