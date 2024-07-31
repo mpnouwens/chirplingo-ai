@@ -16,7 +16,7 @@ const MessageBubble: FC<Props> = ({ from, message, timestamp, image }) => {
     <div className={`chat ${from === "user" ? "chat-end" : "chat-start"}`}>
       <div className="chat-image avatar">
         <div className="w-10 rounded-full">
-         <Image src={image} alt="avatar" width={40} height={40} />
+          <Image src={image} alt="avatar" width={40} height={40} />
         </div>
       </div>
       <div
@@ -28,11 +28,13 @@ const MessageBubble: FC<Props> = ({ from, message, timestamp, image }) => {
         <time className="text-xs opacity-50 ml-2">{timestamp}</time>
       </div>
       <div
-        className={`chat-bubble text-white
-        } ${from === "user" ? "bg-[#FF3D00]" : "bg-[#322A8F]"}`}
+        className={`chat-bubble ${
+          from === "user" ? "text-white" : "text-black"
+        } ${from === "user" ? "bg-[#FF3D00]" : "bg-[#80FF00]"}`}
       >
         {message}
-        <br/><span className="text-xs italic">TODO: Translated Native Language</span>
+        <br />
+        <span className="text-xs italic">TODO: Translated Native Language</span>
       </div>
     </div>
   );

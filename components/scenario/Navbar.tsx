@@ -95,7 +95,7 @@ const Navbar: FC<Props> = ({ goBack, targetTitle, nativeTitle }) => {
           className={`text-lg font-bold ${
             theme === "dark" ? "text-white" : "text-black"
           }`}
-        >{`Goal: "${targetTitle}"`}</h1>
+        >{`"${targetTitle}"`}</h1>
         {/* subtitle */}
         <h2
           className={`text-sm italic ${
